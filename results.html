@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - Wing It</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <h1>
+                    <i class="fas fa-car-side car-icon"></i>
+                    Wing It
+                    <i class="fas fa-plane plane-icon"></i>
+                </h1>
+            </a>
+        </div>
+        <div class="nav-links">
+            <a href="index.html#home">Home</a>
+            <a href="index.html#how-it-works">How It Works</a>
+            <a href="index.html#book">Book a Ride</a>
+        </div>
+        <div class="auth-buttons">
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="signup.html" class="signup-btn">Sign Up</a>
+        </div>
+    </nav>
+
+    <div class="results-container">
+        <div class="search-details">
+            <h2>Your Search Details</h2>
+            <div class="search-info">
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h3>Pickup Location</h3>
+                        <p id="result-pickup"></p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-plane-departure"></i>
+                    <div>
+                        <h3>Airport</h3>
+                        <p id="result-airport"></p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <div>
+                        <h3>Date</h3>
+                        <p id="result-date"></p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <h3>Time</h3>
+                        <p id="result-time"></p>
+                    </div>
+                </div>
+            </div>
+            <button class="modify-search-btn" onclick="window.location.href='index.html#book'">
+                Modify Search
+            </button>
+        </div>
+    </div>
+</body>
+<script src="results.js"></script>
+</html> 

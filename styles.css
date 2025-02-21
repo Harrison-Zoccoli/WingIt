@@ -36,12 +36,17 @@ body {
     min-width: 150px; /* Ensures logo doesn't shrink too much */
 }
 
+.logo a {
+    text-decoration: none;
+}
+
 .logo h1 {
     color: var(--primary-color);
     font-size: 1.8rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    text-decoration: none;
 }
 
 .car-icon, .plane-icon {

@@ -23,13 +23,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Zip artifact for deployment
-        run: |
-          zip -r release.zip ./* -x "*.git*"
-
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'wingit-bqc9dvfnbtg2b8e5'
-          package: release.zip
+          app-name: 'wingit-bqc9dvfnbtg2b8e5.canadacentral-01'
           publish-profile: ${{ secrets.AZUREWEB_PUBLISH_PROFILE }}
+          package: .

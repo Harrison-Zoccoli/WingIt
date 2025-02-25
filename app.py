@@ -21,26 +21,32 @@ with app.app_context():
 @app.route('/api/signup', methods=['POST'])
 def signup():
     data = request.json
+    print("Received signup data:", data)
     
-    if User.query.filter_by(email=data['email']).first():
-        return jsonify({'error': 'Email already registered'}), 400
+    try:
+        if User.query.filter_by(email=data['email']).first():
+            return jsonify({'error': 'Email already registered'}), 400
+            
+        user = User(
+            full_name=data['fullName'],
+            email=data['email'],
+            password=generate_password_hash(data['password']),
+            college=data['college']
+        )
         
-    user = User(
-        full_name=data['fullName'],
-        email=data['email'],
-        password=generate_password_hash(data['password']),
-        college=data['college']
-    )
-    
-    db.session.add(user)
-    db.session.commit()
-    
-    return jsonify({
-        'id': user.id,
-        'fullName': user.full_name,
-        'email': user.email,
-        'college': user.college
-    }), 201
+        db.session.add(user)
+        db.session.commit()
+        print("User created successfully:", user.id)
+        
+        return jsonify({
+            'id': user.id,
+            'fullName': user.full_name,
+            'email': user.email,
+            'college': user.college
+        }), 201
+    except Exception as e:
+        print("Error creating user:", str(e))
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -60,22 +66,28 @@ def login():
 @app.route('/api/rides', methods=['POST'])
 def create_ride_request():
     data = request.json
+    print("Received ride request:", data)
     
-    ride = RideRequest(
-        user_id=data['userId'],
-        pickup=data['pickup'],
-        airport=data['airport'],
-        date=datetime.strptime(data['date'], '%Y-%m-%d').date(),
-        time=datetime.strptime(data['time'], '%H:%M').time()
-    )
-    
-    db.session.add(ride)
-    db.session.commit()
-    
-    return jsonify({
-        'id': ride.id,
-        'message': 'Ride request created successfully'
-    }), 201
+    try:
+        ride = RideRequest(
+            user_id=data['userId'],
+            pickup=data['pickup'],
+            airport=data['airport'],
+            date=datetime.strptime(data['date'], '%Y-%m-%d').date(),
+            time=datetime.strptime(data['time'], '%H:%M').time()
+        )
+        
+        db.session.add(ride)
+        db.session.commit()
+        print("Ride request created successfully:", ride.id)
+        
+        return jsonify({
+            'id': ride.id,
+            'message': 'Ride request created successfully'
+        }), 201
+    except Exception as e:
+        print("Error creating ride request:", str(e))
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/api/matches/<int:ride_id>', methods=['GET'])
 def find_matches(ride_id):

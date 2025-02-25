@@ -32,6 +32,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 time: document.getElementById('time').value
             };
             
+            console.log('Sending ride request:', formData);
+            
             try {
                 const response = await fetch('/api/rides', {
                     method: 'POST',
@@ -40,6 +42,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     body: JSON.stringify(formData)
                 });
+                
+                console.log('Ride request response:', response);
                 
                 if (!response.ok) {
                     throw new Error('Failed to create ride request');
@@ -119,6 +123,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 password: document.getElementById('password').value
             };
             
+            console.log('Sending signup data:', userData);
+            
             try {
                 const response = await fetch('/api/signup', {
                     method: 'POST',
@@ -127,6 +133,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     body: JSON.stringify(userData)
                 });
+                
+                console.log('Signup response:', response);
                 
                 if (!response.ok) {
                     const error = await response.json();

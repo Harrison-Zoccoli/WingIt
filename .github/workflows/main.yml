@@ -18,17 +18,15 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Create and start virtual environment
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install gunicorn
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'wingit-bqc9dvfnbtg2b8e5'
+          app-name: 'wingit-bqc9dvfnbtg2b8e5.canadacentral-01'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREWEB_PUBLISH_PROFILE }}

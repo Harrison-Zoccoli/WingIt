@@ -34,7 +34,6 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'wingit-bqc9dvfnbtg2b8e5.canadacentral-01'
+          app-name: 'WingIt'
           package: release.zip
-          slot-name: 'production'
           publish-profile: ${{ secrets.AZUREWEB_PUBLISH_PROFILE }}

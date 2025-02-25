@@ -129,17 +129,24 @@ def create_ride_request():
 def find_matches():
     data = request.json
     logger.debug(f"Finding matches for: {data}")
+    show_all = data.get('showAll', False)  # New parameter
     
     try:
-        # Find potential matches
-        matches = RideRequest.query.filter(
+        # Base query
+        query = RideRequest.query.filter(
             RideRequest.date == datetime.strptime(data['date'], '%Y-%m-%d').date(),
             RideRequest.pickup == data['pickup'],
             RideRequest.airport == data['airport'],
             RideRequest.user_id != data['userId'],
             RideRequest.status == 'active'
-        ).all()
+        )
         
+        # If not showing all, filter by time range (within 2 hours)
+        if not show_all:
+            user_time = datetime.strptime(data['time'], '%H:%M').time()
+            # TODO: Add time range filter
+            
+        matches = query.all()
         logger.info(f"Found {len(matches)} matches")
         
         return jsonify([{

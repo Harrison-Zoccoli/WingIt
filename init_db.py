@@ -37,14 +37,14 @@ def init_database():
                 pickup="Carnegie Mellon University",
                 airport="Pittsburgh International Airport (PIT)",
                 date=date(2025, 2, 26),
-                time=time(12, 30)
+                time=time(12, 30)  # 12:30 PM
             ),
             RideRequest(
                 user_id=2,
                 pickup="Carnegie Mellon University",
                 airport="Pittsburgh International Airport (PIT)",
                 date=date(2025, 2, 26),
-                time=time(13, 30)
+                time=time(12, 50)  # Changed to 12:50 PM
             )
         ]
         

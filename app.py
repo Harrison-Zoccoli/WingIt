@@ -128,26 +128,29 @@ def create_ride_request():
 @app.route('/api/matches', methods=['POST'])
 def find_matches():
     data = request.json
-    logger.debug(f"Finding matches for: {data}")
-    show_all = data.get('showAll', False)  # New parameter
+    logger.info(f"Finding matches for: {data}")  # Changed to INFO level
+    show_all = data.get('showAll', False)
     
     try:
+        # Parse the user's time
+        search_date = datetime.strptime(data['date'], '%Y-%m-%d').date()
+        logger.info(f"Searching for date: {search_date}")
+        
         # Base query
         query = RideRequest.query.filter(
-            RideRequest.date == datetime.strptime(data['date'], '%Y-%m-%d').date(),
+            RideRequest.date == search_date,
             RideRequest.pickup == data['pickup'],
             RideRequest.airport == data['airport'],
-            RideRequest.user_id != data['userId'],
-            RideRequest.status == 'active'
+            RideRequest.user_id != data['userId']
         )
         
-        # If not showing all, filter by time range (within 2 hours)
-        if not show_all:
-            user_time = datetime.strptime(data['time'], '%H:%M').time()
-            # TODO: Add time range filter
-            
+        # Log the SQL query
+        logger.info(f"SQL Query: {query}")
+        
         matches = query.all()
         logger.info(f"Found {len(matches)} matches")
+        for match in matches:
+            logger.info(f"Match: User {match.user_id}, Time {match.time}")
         
         return jsonify([{
             'id': m.id,

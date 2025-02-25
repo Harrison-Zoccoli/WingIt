@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateNavbar(user);
     
     if (rideForm) {
-        rideForm.addEventListener('submit', function(e) {
+        rideForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             if (!checkLoginStatus()) {
@@ -23,64 +23,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            const pickup = document.getElementById('pickup');
-            const airport = document.getElementById('airport');
-            const date = document.getElementById('date');
-            const time = document.getElementById('time');
-            
-            let isValid = true;
-            const errors = [];
-            
-            if (!pickup.value.trim()) {
-                isValid = false;
-                pickup.classList.add('error');
-                errors.push('Please enter a pickup location');
-            } else {
-                pickup.classList.remove('error');
-            }
-            
-            if (!airport.value.trim()) {
-                isValid = false;
-                airport.classList.add('error');
-                errors.push('Please enter an airport');
-            } else {
-                airport.classList.remove('error');
-            }
-            
-            if (!date.value) {
-                isValid = false;
-                date.classList.add('error');
-                errors.push('Please select a date');
-            } else {
-                date.classList.remove('error');
-            }
-            
-            if (!time.value) {
-                isValid = false;
-                time.classList.add('error');
-                errors.push('Please select a time');
-            } else {
-                time.classList.remove('error');
-            }
-            
-            if (!isValid) {
-                alert(errors.join('\n'));
-                return;
-            }
-            
             const user = JSON.parse(localStorage.getItem('currentUser'));
             const formData = {
-                pickup: pickup.value,
-                airport: airport.value,
-                date: date.value,
-                time: time.value,
-                userName: user.fullName
+                userId: user.id,
+                pickup: document.getElementById('pickup').value,
+                airport: document.getElementById('airport').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value
             };
             
-            console.log('Form Data Submitted:', formData);
-            
-            const searchParams = new URLSearchParams(formData);
-            window.location.href = `results.html?${searchParams.toString()}`;
+            try {
+                const response = await fetch('/api/rides', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to create ride request');
+                }
+                
+                const result = await response.json();
+                window.location.href = `results.html?${new URLSearchParams(formData).toString()}`;
+            } catch (error) {
+                alert('Error creating ride request: ' + error.message);
+            }
         });
     }
 
@@ -107,18 +76,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
-        loginForm.addEventListener('submit', function(e) {
+        loginForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
             
-            const users = JSON.parse(localStorage.getItem('users') || '[]');
-            const user = users.find(u => u.email === email && u.password === password);
+            const credentials = {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
+            };
             
-            if (user) {
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(credentials)
+                });
+                
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error);
+                }
+                
+                const user = await response.json();
                 localStorage.setItem('currentUser', JSON.stringify(user));
                 window.location.href = 'index.html';
-            } else {
+            } catch (error) {
                 alert('Invalid email or password');
             }
         });
@@ -126,27 +109,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const signupForm = document.getElementById('signupForm');
     if (signupForm) {
-        signupForm.addEventListener('submit', function(e) {
+        signupForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const newUser = {
+            const userData = {
                 fullName: document.getElementById('fullName').value,
                 college: document.getElementById('college').value,
                 email: document.getElementById('email').value,
                 password: document.getElementById('password').value
             };
             
-            const users = JSON.parse(localStorage.getItem('users') || '[]');
-            
-            if (users.some(user => user.email === newUser.email)) {
-                alert('Email already registered');
-                return;
+            try {
+                const response = await fetch('/api/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(userData)
+                });
+                
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error);
+                }
+                
+                const user = await response.json();
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                window.location.href = 'index.html';
+            } catch (error) {
+                alert('Error creating account: ' + error.message);
             }
-            
-            users.push(newUser);
-            localStorage.setItem('users', JSON.stringify(users));
-            localStorage.setItem('currentUser', JSON.stringify(newUser));
-            window.location.href = 'index.html';
         });
     }
 });

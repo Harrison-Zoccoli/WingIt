@@ -54,30 +54,23 @@ def login():
 
 @app.route('/api/rides', methods=['POST'])
 def create_ride_request():
-    try:
-        data = request.json
-        user = User.query.get(data['userId'])
-        if not user:
-            return jsonify({'error': 'User not found'}), 404
-
-        ride = RideRequest(
-            user_id=user.id,
-            pickup=data['pickup'],
-            airport=data['airport'],
-            date=datetime.strptime(data['date'], '%Y-%m-%d').date(),
-            time=datetime.strptime(data['time'], '%H:%M').time()
-        )
-        
-        db.session.add(ride)
-        db.session.commit()
-        
-        return jsonify({
-            'id': ride.id,
-            'message': 'Ride request created successfully'
-        }), 201
-        
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+    data = request.json
+    
+    ride = RideRequest(
+        user_id=data['userId'],
+        pickup=data['pickup'],
+        airport=data['airport'],
+        date=datetime.strptime(data['date'], '%Y-%m-%d').date(),
+        time=datetime.strptime(data['time'], '%H:%M').time()
+    )
+    
+    db.session.add(ride)
+    db.session.commit()
+    
+    return jsonify({
+        'id': ride.id,
+        'message': 'Ride request created successfully'
+    }), 201
 
 @app.route('/api/matches/<int:ride_id>', methods=['GET'])
 def find_matches(ride_id):

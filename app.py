@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from models import db, User, RideRequest, WaitlistEntry
 import os
+import sqlite3
 
 app = Flask(__name__, static_folder='.')
 CORS(app)
@@ -12,6 +13,10 @@ CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///dev.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
+
+with app.app_context():
+    # Create all database tables
+    db.create_all()
 
 @app.route('/api/signup', methods=['POST'])
 def signup():

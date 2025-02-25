@@ -4,28 +4,53 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 import os
 import sqlite3
+import logging
+
+# Set up logging
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__, static_folder='.')
 CORS(app)
 
+logger.info("Starting application...")
+
 # Database configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///wingit.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+try:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///wingit.db'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    logger.info("Database configuration set")
+    
+    from models import db, User, RideRequest, WaitlistEntry
+    db.init_app(app)
+    logger.info("Database initialized")
 
-from models import db, User, RideRequest, WaitlistEntry
-db.init_app(app)
+    with app.app_context():
+        # Create all database tables
+        db.create_all()
+        logger.info("Database tables created")
+except Exception as e:
+    logger.error(f"Error during startup: {str(e)}")
+    raise
 
-with app.app_context():
-    # Create all database tables
-    db.create_all()
+@app.route('/')
+def index():
+    try:
+        logger.info("Serving index page")
+        return send_from_directory(app.static_folder, 'index.html')
+    except Exception as e:
+        logger.error(f"Error serving index: {str(e)}")
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/api/signup', methods=['POST'])
 def signup():
+    logger.info("Received signup request")
     data = request.json
-    print("Received signup data:", data)
+    logger.debug(f"Signup data: {data}")
     
     try:
         if User.query.filter_by(email=data['email']).first():
+            logger.warning(f"Email already registered: {data['email']}")
             return jsonify({'error': 'Email already registered'}), 400
             
         user = User(
@@ -37,7 +62,7 @@ def signup():
         
         db.session.add(user)
         db.session.commit()
-        print("User created successfully:", user.id)
+        logger.info(f"User created successfully: {user.id}")
         
         return jsonify({
             'id': user.id,
@@ -46,7 +71,7 @@ def signup():
             'college': user.college
         }), 201
     except Exception as e:
-        print("Error creating user:", str(e))
+        logger.error(f"Error creating user: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/api/login', methods=['POST'])
@@ -109,10 +134,6 @@ def find_matches(ride_id):
         'time': m.time.strftime('%H:%M')
     } for m in matches])
 
-@app.route('/')
-def index():
-    return send_from_directory(app.static_folder, 'index.html')
-
 @app.route('/<path:path>')
 def static_files(path):
     return send_from_directory(app.static_folder, path)
@@ -132,6 +153,25 @@ def get_ride_requests():
     except Exception as e:
         return jsonify({
             'error': str(e)
+        }), 500
+
+@app.route('/health')
+def health_check():
+    try:
+        # Test database connection
+        with app.app_context():
+            db.session.execute('SELECT 1')
+        return jsonify({
+            'status': 'healthy',
+            'database': 'connected',
+            'timestamp': datetime.now().isoformat()
+        })
+    except Exception as e:
+        logger.error(f"Health check failed: {str(e)}")
+        return jsonify({
+            'status': 'unhealthy',
+            'error': str(e),
+            'timestamp': datetime.now().isoformat()
         }), 500
 
 if __name__ == '__main__':

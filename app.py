@@ -128,13 +128,19 @@ def create_ride_request():
 @app.route('/api/matches', methods=['POST'])
 def find_matches():
     data = request.json
-    logger.info(f"Finding matches for: {data}")  # Changed to INFO level
-    show_all = data.get('showAll', False)
+    logger.info(f"Finding matches for: {data}")
     
     try:
         # Parse the user's time
         search_date = datetime.strptime(data['date'], '%Y-%m-%d').date()
         logger.info(f"Searching for date: {search_date}")
+        
+        # Log the exact search criteria
+        logger.info(f"Search criteria:")
+        logger.info(f"- Date: {search_date}")
+        logger.info(f"- Pickup: {data['pickup']}")
+        logger.info(f"- Airport: {data['airport']}")
+        logger.info(f"- User ID: {data['userId']}")
         
         # Base query
         query = RideRequest.query.filter(
@@ -144,13 +150,16 @@ def find_matches():
             RideRequest.user_id != data['userId']
         )
         
-        # Log the SQL query
-        logger.info(f"SQL Query: {query}")
-        
         matches = query.all()
         logger.info(f"Found {len(matches)} matches")
         for match in matches:
-            logger.info(f"Match: User {match.user_id}, Time {match.time}")
+            logger.info(f"Match details:")
+            logger.info(f"- ID: {match.id}")
+            logger.info(f"- User: {match.user_id}")
+            logger.info(f"- Date: {match.date}")
+            logger.info(f"- Time: {match.time}")
+            logger.info(f"- Pickup: {match.pickup}")
+            logger.info(f"- Airport: {match.airport}")
         
         return jsonify([{
             'id': m.id,

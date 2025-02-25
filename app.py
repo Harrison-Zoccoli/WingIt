@@ -10,7 +10,7 @@ app = Flask(__name__, static_folder='.')
 CORS(app)
 
 # Database configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///dev.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///wingit.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 

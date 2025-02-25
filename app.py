@@ -128,38 +128,43 @@ def create_ride_request():
 @app.route('/api/matches', methods=['POST'])
 def find_matches():
     data = request.json
-    logger.info(f"Finding matches for: {data}")
+    logger.info("=== Starting Match Search ===")
+    logger.info(f"Search criteria: {data}")
     
     try:
-        # Parse the user's time
+        # First, show all rides in database
+        logger.info("\nAll rides in database:")
+        all_rides = RideRequest.query.all()
+        for ride in all_rides:
+            logger.info(f"""
+Ride ID: {ride.id}
+- User: {User.query.get(ride.user_id).full_name}
+- Date: {ride.date}
+- Time: {ride.time}
+- Pickup: {ride.pickup}
+- Airport: {ride.airport}
+""")
+
+        # Now do the search
         search_date = datetime.strptime(data['date'], '%Y-%m-%d').date()
-        logger.info(f"Searching for date: {search_date}")
         
-        # Log the exact search criteria
-        logger.info(f"Search criteria:")
-        logger.info(f"- Date: {search_date}")
-        logger.info(f"- Pickup: {data['pickup']}")
-        logger.info(f"- Airport: {data['airport']}")
-        logger.info(f"- User ID: {data['userId']}")
+        # Base query - show why each ride matches or doesn't
+        for ride in all_rides:
+            logger.info(f"\nChecking ride {ride.id}:")
+            logger.info(f"- Date match? {ride.date == search_date}")
+            logger.info(f"- Pickup match? {ride.pickup == data['pickup']}")
+            logger.info(f"- Airport match? {ride.airport == data['airport']}")
+            logger.info(f"- Different user? {ride.user_id != data['userId']}")
         
-        # Base query
-        query = RideRequest.query.filter(
+        # Do the actual query
+        matches = RideRequest.query.filter(
             RideRequest.date == search_date,
             RideRequest.pickup == data['pickup'],
             RideRequest.airport == data['airport'],
             RideRequest.user_id != data['userId']
-        )
+        ).all()
         
-        matches = query.all()
-        logger.info(f"Found {len(matches)} matches")
-        for match in matches:
-            logger.info(f"Match details:")
-            logger.info(f"- ID: {match.id}")
-            logger.info(f"- User: {match.user_id}")
-            logger.info(f"- Date: {match.date}")
-            logger.info(f"- Time: {match.time}")
-            logger.info(f"- Pickup: {match.pickup}")
-            logger.info(f"- Airport: {match.airport}")
+        logger.info(f"\nFound {len(matches)} matches")
         
         return jsonify([{
             'id': m.id,

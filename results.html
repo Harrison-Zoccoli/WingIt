@@ -34,41 +34,49 @@
         <div class="search-details">
             <h2>Your Search Details</h2>
             <div class="search-info">
-                <div class="info-item">
+                <div class="passenger-info info-item">
                     <i class="fas fa-user"></i>
                     <div>
                         <h3>Passenger</h3>
                         <p id="result-user"></p>
                     </div>
                 </div>
-                <div class="info-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <div>
-                        <h3>Pickup Location</h3>
-                        <p id="result-pickup"></p>
+                <div class="ride-details">
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>Pickup Location</h3>
+                            <p id="result-pickup"></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-plane-departure"></i>
+                        <div>
+                            <h3>Airport</h3>
+                            <p id="result-airport"></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <div>
+                            <h3>Date</h3>
+                            <p id="result-date"></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h3>Flight Time</h3>
+                            <p id="result-time"></p>
+                        </div>
                     </div>
                 </div>
-                <div class="info-item">
-                    <i class="fas fa-plane-departure"></i>
-                    <div>
-                        <h3>Airport</h3>
-                        <p id="result-airport"></p>
-                    </div>
-                </div>
-                <div class="info-item">
-                    <i class="fas fa-calendar-alt"></i>
-                    <div>
-                        <h3>Date</h3>
-                        <p id="result-date"></p>
-                    </div>
-                </div>
-                <div class="info-item">
-                    <i class="fas fa-clock"></i>
-                    <div>
-                        <h3>Flight Time</h3>
-                        <p id="result-time"></p>
-                    </div>
-                </div>
+            </div>
+            <div class="match-section">
+                <button class="match-btn" onclick="findMatches()">
+                    Find Matching Rides
+                </button>
+                <div id="matches-container"></div>
             </div>
             <button class="modify-search-btn" onclick="window.location.href='index.html#book'">
                 Modify Search
@@ -77,4 +85,5 @@
     </div>
 </body>
 <script src="results.js"></script>
+<script src="matchingService.js"></script>
 </html> 

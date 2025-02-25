@@ -78,11 +78,18 @@
             <form id="rideForm">
                 <div class="form-group">
                     <label for="pickup">Pickup Location</label>
-                    <input type="text" id="pickup" placeholder="Enter your campus/location">
+                    <select id="pickup" required>
+                        <option value="">Select your pickup location</option>
+                        <option value="Carnegie Mellon University">Carnegie Mellon University</option>
+                        <option value="University of Pittsburgh">University of Pittsburgh</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="airport">Airport</label>
-                    <input type="text" id="airport" placeholder="Enter airport">
+                    <select id="airport" required>
+                        <option value="">Select your airport</option>
+                        <option value="PIT">Pittsburgh International Airport (PIT)</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="date">Date</label>

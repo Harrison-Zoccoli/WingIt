@@ -165,4 +165,43 @@ function updateNavbar(user) {
 function logout() {
     localStorage.removeItem('currentUser');
     window.location.href = 'index.html';
+}
+
+// Replace localStorage operations with API calls
+async function signup(userData) {
+    const response = await fetch('/api/signup', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData)
+    });
+    
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error);
+    }
+    
+    const user = await response.json();
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    return user;
+}
+
+async function login(credentials) {
+    const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials)
+    });
+    
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error);
+    }
+    
+    const user = await response.json();
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    return user;
 } 

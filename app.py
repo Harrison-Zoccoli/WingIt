@@ -91,10 +91,20 @@ def login():
 
 @app.route('/api/rides', methods=['POST'])
 def create_ride_request():
+    logger.info("Received ride request")
     data = request.json
-    print("Received ride request:", data)
+    logger.debug(f"Ride request data: {data}")
     
     try:
+        # Log the user ID
+        logger.debug(f"User ID from request: {data.get('userId')}")
+        
+        # Verify user exists
+        user = User.query.get(data['userId'])
+        if not user:
+            logger.error(f"User not found: {data['userId']}")
+            return jsonify({'error': 'User not found'}), 404
+
         ride = RideRequest(
             user_id=data['userId'],
             pickup=data['pickup'],
@@ -105,14 +115,14 @@ def create_ride_request():
         
         db.session.add(ride)
         db.session.commit()
-        print("Ride request created successfully:", ride.id)
+        logger.info(f"Ride request created successfully: {ride.id}")
         
         return jsonify({
             'id': ride.id,
             'message': 'Ride request created successfully'
         }), 201
     except Exception as e:
-        print("Error creating ride request:", str(e))
+        logger.error(f"Error creating ride request: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/api/matches/<int:ride_id>', methods=['GET'])

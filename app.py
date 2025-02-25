@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-from models import db, User, RideRequest, WaitlistEntry
 import os
 import sqlite3
 
@@ -12,6 +11,8 @@ CORS(app)
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///wingit.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+from models import db, User, RideRequest, WaitlistEntry
 db.init_app(app)
 
 with app.app_context():

@@ -125,24 +125,31 @@ def create_ride_request():
         logger.error(f"Error creating ride request: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
-@app.route('/api/matches/<int:ride_id>', methods=['GET'])
-def find_matches(ride_id):
-    ride = RideRequest.query.get_or_404(ride_id)
+@app.route('/api/matches', methods=['POST'])
+def find_matches():
+    data = request.json
+    logger.debug(f"Finding matches for: {data}")
     
-    # Find potential matches
-    matches = RideRequest.query.filter(
-        RideRequest.date == ride.date,
-        RideRequest.pickup == ride.pickup,
-        RideRequest.airport == ride.airport,
-        RideRequest.user_id != ride.user_id,
-        RideRequest.status == 'active'
-    ).all()
-    
-    return jsonify([{
-        'id': m.id,
-        'user': User.query.get(m.user_id).full_name,
-        'time': m.time.strftime('%H:%M')
-    } for m in matches])
+    try:
+        # Find potential matches
+        matches = RideRequest.query.filter(
+            RideRequest.date == datetime.strptime(data['date'], '%Y-%m-%d').date(),
+            RideRequest.pickup == data['pickup'],
+            RideRequest.airport == data['airport'],
+            RideRequest.user_id != data['userId'],
+            RideRequest.status == 'active'
+        ).all()
+        
+        logger.info(f"Found {len(matches)} matches")
+        
+        return jsonify([{
+            'id': m.id,
+            'user': User.query.get(m.user_id).full_name,
+            'time': m.time.strftime('%H:%M')
+        } for m in matches])
+    except Exception as e:
+        logger.error(f"Error finding matches: {str(e)}")
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/<path:path>')
 def static_files(path):

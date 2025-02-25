@@ -20,8 +20,8 @@ jobs:
 
       - name: Create virtual environment
         run: |
-          python -m venv antenv
-          source antenv/bin/activate
+          python -m venv .venv
+          source .venv/bin/activate
 
       - name: Install dependencies
         run: |
@@ -34,6 +34,6 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'WingIt'
+          app-name: 'wingit-bqc9dvfnbtg2b8e5'
           package: release.zip
           publish-profile: ${{ secrets.AZUREWEB_PUBLISH_PROFILE }}

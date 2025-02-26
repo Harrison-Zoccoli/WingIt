@@ -129,10 +129,20 @@ def create_ride_request():
 def find_matches():
     data = request.json
     logger.info("=== Starting Match Search ===")
-    logger.info(f"Search criteria: {data}")
+    logger.info(f"Raw request data: {data}")
     
     try:
-        # First, show all rides in database
+        # Parse and log the exact search values
+        search_date = datetime.strptime(data['date'], '%Y-%m-%d').date()
+        search_time = datetime.strptime(data['time'], '%H:%M').time()
+        logger.info(f"Parsed values:")
+        logger.info(f"- Date: {search_date}")
+        logger.info(f"- Time: {search_time}")
+        logger.info(f"- Pickup: {data['pickup']}")
+        logger.info(f"- Airport: {data['airport']}")
+        logger.info(f"- User ID: {data['userId']}")
+        
+        # Log all rides in database
         logger.info("\nAll rides in database:")
         all_rides = RideRequest.query.all()
         for ride in all_rides:
@@ -144,25 +154,19 @@ Ride ID: {ride.id}
 - Pickup: {ride.pickup}
 - Airport: {ride.airport}
 """)
-
-        # Now do the search
-        search_date = datetime.strptime(data['date'], '%Y-%m-%d').date()
         
-        # Base query - show why each ride matches or doesn't
+        # Find matches with time window (±30 minutes)
+        matches = []
         for ride in all_rides:
-            logger.info(f"\nChecking ride {ride.id}:")
-            logger.info(f"- Date match? {ride.date == search_date}")
-            logger.info(f"- Pickup match? {ride.pickup == data['pickup']}")
-            logger.info(f"- Airport match? {ride.airport == data['airport']}")
-            logger.info(f"- Different user? {ride.user_id != data['userId']}")
-        
-        # Do the actual query
-        matches = RideRequest.query.filter(
-            RideRequest.date == search_date,
-            RideRequest.pickup == data['pickup'],
-            RideRequest.airport == data['airport'],
-            RideRequest.user_id != data['userId']
-        ).all()
+            if (ride.date == search_date and
+                ride.pickup == data['pickup'] and
+                ride.airport == data['airport'] and
+                ride.user_id != data['userId']):
+                # Convert times to minutes for comparison
+                ride_minutes = ride.time.hour * 60 + ride.time.minute
+                search_minutes = search_time.hour * 60 + search_time.minute
+                if abs(ride_minutes - search_minutes) <= 30:
+                    matches.append(ride)
         
         logger.info(f"\nFound {len(matches)} matches")
         

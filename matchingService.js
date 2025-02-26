@@ -1,39 +1,21 @@
 // Remove the sampleRides array and replace with API calls
 
-async function findMatches() {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    const currentRide = {
-        pickup: document.getElementById('result-pickup').textContent,
-        airport: document.getElementById('result-airport').textContent,
-        date: document.getElementById('result-date').textContent,
-        time: document.getElementById('result-time').textContent
-    };
-
+async function findMatches(rideDetails) {
     try {
-        // Fetch matching rides from the database through our API
         const response = await fetch('/api/matches', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                userId: currentUser.id,
-                ...currentRide
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(rideDetails)
         });
 
         if (!response.ok) {
-            throw new Error('Failed to fetch matches');
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const matches = await response.json();
-        console.log('Matches found:', matches);
-        displayMatches(matches);
-        
+        return await response.json();
     } catch (error) {
         console.error('Error finding matches:', error);
-        document.getElementById('matches-container').innerHTML = 
-            '<p class="error">Error finding matches. Please try again.</p>';
+        throw new Error('Failed to fetch matches');
     }
 }
 

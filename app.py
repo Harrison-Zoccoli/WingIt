@@ -133,9 +133,27 @@ def find_matches():
     logger.info(f"Raw request data: {data}")
     
     try:
+        # Validate required fields
+        required_fields = ['date', 'time', 'pickup', 'airport', 'userId']
+        for field in required_fields:
+            if field not in data:
+                logger.error(f"Missing required field: {field}")
+                return jsonify({'error': f"Missing {field}"}), 400
+        
         # Parse and log the exact search values
-        search_date = datetime.strptime(data['date'], '%Y-%m-%d').date()
-        search_time = datetime.strptime(data['time'], '%H:%M').time()
+        try:
+            search_date = datetime.strptime(data['date'], '%Y-%m-%d').date()
+            # Strip AM/PM and convert to 24-hour format
+            time_str = data['time'].replace(' AM', '').replace(' PM', '')
+            if 'PM' in data['time'] and not data['time'].startswith('12'):
+                # Convert PM times to 24-hour format
+                hour, minute = map(int, time_str.split(':'))
+                time_str = f"{hour + 12}:{minute}"
+            search_time = datetime.strptime(time_str, '%H:%M').time()
+        except ValueError as e:
+            logger.error(f"Date/time parsing error: {e}")
+            return jsonify({'error': 'Invalid date or time format'}), 400
+
         logger.info(f"Parsed values:")
         logger.info(f"- Date: {search_date}")
         logger.info(f"- Time: {search_time}")

@@ -1,0 +1,25 @@
+/* Remove dropdown arrows from date and time inputs */
+input[type="date"],
+input[type="time"] {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    background: none !important;
+    padding-right: 8px !important;  /* Reduce right padding where arrow was */
+}
+
+/* Hide the calendar/time picker icons specifically */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator,
+input[type="date"]::-webkit-inner-spin-button,
+input[type="time"]::-webkit-inner-spin-button {
+    display: none !important;
+    -webkit-appearance: none !important;
+    opacity: 0 !important;
+}
+
+/* For Firefox */
+input[type="date"]::-moz-calendar-picker-indicator,
+input[type="time"]::-moz-calendar-picker-indicator {
+    display: none !important;
+} 

@@ -22,7 +22,9 @@ def check_database():
         try:
             # Test connection
             db.session.execute(text('SELECT 1'))
-            logger.info("Successfully connected to the database!")
+            logger.info("=== DATABASE CONNECTION TEST ===")
+            logger.info("✅ Successfully connected to the database!")
+            logger.info("=================================")
             
             # List existing tables
             sql = text("""
@@ -35,15 +37,15 @@ def check_database():
             if tables:
                 logger.info(f"Found {len(tables)} tables in the database:")
                 for table in tables:
-                    logger.info(f"- {table[0]}")
+                    logger.info(f"✅ {table[0]}")
             else:
                 logger.info("No tables found in the database.")
                 
         except Exception as e:
-            logger.error(f"Database connection error: {str(e)}")
+            logger.error(f"❌ Database connection error: {str(e)}")
             raise
 
 if __name__ == "__main__":
-    logger.info("Checking database connection...")
+    logger.info("Starting database check...")
     check_database()
     logger.info("Database check completed!") 

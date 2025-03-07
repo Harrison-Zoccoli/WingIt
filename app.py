@@ -18,7 +18,7 @@ logger.info("Starting application...")
 
 # Database configuration
 try:
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://HarrisonZoccoli:qwert123$Benny123$@wingit-db.postgres.database.azure.com:5432/postgres?sslmode=require'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://HarrisonZoccoli@wingit-db:qwert123$Benny123$@wingit-db.postgres.database.azure.com:5432/postgres?sslmode=require'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     logger.info("Database configuration set")
     

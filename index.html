@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wing It - Student Airport Ridesharing - Test</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <h1>
+                <i class="fas fa-car-side car-icon"></i>
+                Wing It
+                <i class="fas fa-plane plane-icon"></i>
+            </h1>
+        </div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#book">Book a Ride</a>
+        </div>
+        <div class="auth-buttons">
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="signup.html" class="signup-btn">Sign Up</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Airport Rides with Fellow Students</h1>
+            <p>Safe, affordable rides to and from the airport with students from your college</p>
+            <a href="#book" class="cta-button">Find a Ride</a>
+        </div>
+    </header>
+
+    <section id="how-it-works" class="section">
+        <h2>How Wing It Works</h2>
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-icon">1</div>
+                <h3>Sign Up</h3>
+                <p>Create an account with your college email to join our verified student community. We ensure all users are current students for added safety and trust.</p>
+                <ul class="step-details">
+                    <li>Verify your student status</li>
+                    <li>Create your profile</li>
+                    <li>Add your travel preferences</li>
+                </ul>
+            </div>
+            <div class="step">
+                <div class="step-icon">2</div>
+                <h3>Book a Ride</h3>
+                <p>Enter your travel details and find matches with students heading to the same airport. Choose based on schedule, price, and user ratings.</p>
+                <ul class="step-details">
+                    <li>Find rides that match your schedule</li>
+                    <li>View driver profiles and ratings</li>
+                    <li>Instant messaging with potential matches</li>
+                </ul>
+            </div>
+            <div class="step">
+                <div class="step-icon">3</div>
+                <h3>Meet & Travel</h3>
+                <p>Connect with your travel buddy, split the cost, and enjoy a safe ride to the airport. Build connections within your college community.</p>
+                <ul class="step-details">
+                    <li>In-app payment splitting</li>
+                    <li>Real-time ride tracking</li>
+                    <li>24/7 customer support</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="book" class="booking-section">
+        <h2>Book Your Ride</h2>
+        <div class="booking-form">
+            <form id="rideForm">
+                <div class="form-group">
+                    <label for="pickup">Pickup Location</label>
+                    <select id="pickup" required>
+                        <option value="">Select your pickup location</option>
+                        <option value="Carnegie Mellon University">Carnegie Mellon University</option>
+                        <option value="University of Pittsburgh">University of Pittsburgh</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="airport">Airport</label>
+                    <select id="airport" required>
+                        <option value="">Select your airport</option>
+                        <option value="PIT">Pittsburgh International Airport (PIT)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date">
+                </div>
+                <div class="form-group">
+                    <label for="time">Flight Time</label>
+                    <input type="time" id="time">
+                </div>
+                <button type="submit" class="submit-btn">Search for Rides</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Wing It</h3>
+                <p>Student-to-student airport ridesharing</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#about">About Us</a>
+                <a href="#safety">Safety</a>
+                <a href="#faq">FAQ</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>support@wingit.com</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon">Facebook</a>
+                    <a href="#" class="social-icon">Instagram</a>
+                    <a href="#" class="social-icon">Twitter</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

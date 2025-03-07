@@ -1,0 +1,767 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --primary-color: #1e88e5;  /* Sky blue */
+    --secondary-color: #ff6b6b; /* Coral */
+    --text-color: #333;
+    --light-bg: #e8f5fe;  /* Light sky blue */
+    --accent-color: #ffd700; /* Gold */
+}
+
+body {
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    min-width: 150px; /* Ensures logo doesn't shrink too much */
+}
+
+.logo a {
+    text-decoration: none;
+}
+
+.logo h1 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.car-icon, .plane-icon {
+    font-size: 1.2rem;
+}
+
+.car-icon {
+    color: var(--secondary-color);
+    animation: driveToCar 2s infinite;
+    position: relative;
+}
+
+.plane-icon {
+    color: var(--primary-color);
+    animation: flyPlane 2s infinite;
+    position: relative;
+}
+
+/* Add animations */
+@keyframes driveToCar {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes flyPlane {
+    0% {
+        transform: translateY(0) rotate(45deg);
+    }
+    50% {
+        transform: translateY(-3px) rotate(45deg);
+    }
+    100% {
+        transform: translateY(0) rotate(45deg);
+    }
+}
+
+/* Add hover effect to logo */
+.logo h1:hover .car-icon {
+    animation: driveToCar 2s infinite;
+}
+
+.logo h1:hover .plane-icon {
+    animation: flyPlane 2s infinite;
+}
+
+/* Update nav-links styles */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0 auto; /* This centers the nav-links */
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    background-color: var(--light-bg);
+}
+
+.nav-links a:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Update auth button styles */
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.login-btn, .signup-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    white-space: nowrap;
+}
+
+.login-btn {
+    background-color: var(--light-bg);
+}
+
+.signup-btn {
+    background-color: var(--primary-color);
+    color: white !important;
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    background: linear-gradient(135deg, #1e88e5 0%, #64b5f6 50%, #bbdefb 100%);
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 0 5%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Add watercolor-like effect using multiple gradients */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.2) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 60%);
+    opacity: 0.8;
+    z-index: 1;
+}
+
+.hero-content {
+    color: white;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content h1 {
+    color: white;
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    font-weight: 600;
+}
+
+.hero-content p {
+    color: white;
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.cta-button {
+    background-color: white;
+    color: var(--primary-color);
+    padding: 1.2rem 3rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-top: 2rem;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    background-color: #f8f9fa;
+}
+
+/* How It Works Section */
+.section {
+    padding: 5rem 5%;
+    background-color: white;
+}
+
+.section h2 {
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.steps-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3rem;
+    gap: 2rem;
+    padding: 0 2rem;
+}
+
+.step {
+    text-align: center;
+    flex: 1;
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border: 2px solid var(--light-bg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.step::before {
+    content: '✈';
+    position: absolute;
+    font-size: 8rem;
+    opacity: 0.03;
+    top: -1rem;
+    right: -1rem;
+    transform: rotate(-45deg);
+}
+
+.step:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    border-color: var(--primary-color);
+}
+
+.step-icon {
+    width: 60px;
+    height: 60px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 1.4rem;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 15px rgba(30,136,229,0.3);
+}
+
+.step h3 {
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.step p {
+    color: var(--text-color);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.step-details {
+    list-style: none;
+    text-align: left;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.step-details li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.step-details li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+}
+
+/* Booking Section */
+.booking-section {
+    background-color: var(--light-bg);
+    padding: 5rem 5%;
+    position: relative;
+    overflow: hidden;
+}
+
+.booking-form {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: white;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.8rem center;
+    background-size: 1em;
+    padding-right: 2.5rem;
+}
+
+.form-group select::-ms-expand {
+    display: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.form-group input.error,
+.form-group select.error {
+    border-color: #ff4444;
+    background-color: #fff8f8;
+}
+
+.submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* Footer */
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 3rem 5%;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-section {
+    flex: 1;
+    margin-right: 2rem;
+}
+
+.footer-section h3 {
+    margin-bottom: 1rem;
+}
+
+.footer-section a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.social-links {
+    margin-top: 1rem;
+}
+
+.social-icon {
+    margin-right: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+    
+    .steps-container {
+        flex-direction: column;
+        padding: 0 1rem;
+    }
+    
+    .step {
+        margin-bottom: 2rem;
+    }
+    
+    .step:last-child {
+        margin-bottom: 0;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+    }
+    
+    .footer-section {
+        margin-bottom: 2rem;
+    }
+}
+
+/* Add airplane design elements */
+.booking-section::before {
+    content: '✈';
+    position: absolute;
+    font-size: 15rem;
+    opacity: 0.03;
+    top: -2rem;
+    right: -2rem;
+    transform: rotate(-45deg);
+}
+
+/* Add new styles for auth pages */
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-color), var(--light-bg));
+    padding: 2rem;
+}
+
+.auth-box {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-box::before {
+    content: '✈';
+    position: absolute;
+    font-size: 10rem;
+    opacity: 0.03;
+    top: -2rem;
+    right: -2rem;
+    transform: rotate(-45deg);
+}
+
+.auth-box h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.auth-form .form-group {
+    margin-bottom: 1.2rem;
+}
+
+.auth-btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.auth-btn:hover {
+    background: #1565c0;
+}
+
+.auth-redirect {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.auth-redirect a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* Add hover effects to buttons */
+.cta-button:hover, .submit-btn:hover {
+    background-color: #1565c0;
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+/* Add animation to step icons */
+.step-icon {
+    transition: transform 0.3s ease;
+}
+
+.step:hover .step-icon {
+    transform: scale(1.1);
+}
+
+/* Add to your existing CSS */
+.user-name {
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.logout-btn {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.logout-btn:hover {
+    background-color: #ff5252;
+}
+
+/* Results page styles */
+.results-container {
+    padding-top: 100px;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--primary-color), var(--light-bg));
+}
+
+.search-details {
+    max-width: 800px;
+    margin: 2rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.search-details h2 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+.search-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.passenger-info {
+    width: 100%;
+}
+
+.ride-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--light-bg);
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.info-item:hover {
+    transform: translateY(-5px);
+}
+
+.info-item i {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-top: 0.5rem;
+}
+
+.info-item h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.info-item p {
+    color: var(--text-color);
+    font-size: 1.1rem;
+}
+
+.modify-search-btn {
+    display: block;
+    margin: 2rem auto 0;
+    padding: 1rem 2rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.modify-search-btn:hover {
+    background-color: #1565c0;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .ride-details {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .search-details {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+}
+
+/* Add to your existing CSS */
+.user-name {
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.logout-btn {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.logout-btn:hover {
+    background-color: #ff5252;
+}
+
+.match-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+}
+
+.match-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.match-card {
+    background: var(--light-bg);
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.match-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.no-matches {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+
+.waitlist-section {
+    text-align: center;
+    padding: 2rem;
+    background: var(--light-bg);
+    border-radius: 10px;
+    margin: 2rem 0;
+}
+
+.waitlist-btn, .show-all-btn {
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.waitlist-btn {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.show-all-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.waitlist-btn:hover, .show-all-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+} 
